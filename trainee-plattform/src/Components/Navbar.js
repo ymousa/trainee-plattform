@@ -1,15 +1,24 @@
-import React from 'react'
+import { LogoutIcon } from '@heroicons/react/solid'
+import React, {useState} from 'react'
 import { Link } from "react-router-dom"
+import { useAuth } from '../Contexts/AuthContext'
 
-const Navbar = ({ token }) => {
+const Navbar = () => {
+    const [error, setError]= useState()
+    const {currentUser, logout}= useAuth()
 
-    const logout = () => {
-        localStorage.removeItem("token")
-        localStorage.clear()
-        window.location.reload(false)
+    async function handleLogout () {
+        setError('')
+        try {
+            await logout();
+
+        } catch (error) {
+            setError("Failed to Logout")
+        }
     }
 
     return (
+        
         <nav className="bg-gray-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
@@ -36,10 +45,11 @@ const Navbar = ({ token }) => {
                                     </button>
                                 </div>
                             </div>
+                            <span className="bg-gray-900 text-white">{currentUser?.email}</span>
                             {/* <!-- Logout  --> */}
                             <div className="ml-3 relative">
                                 <div>
-                                    <a href="#" className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Logout</a>
+                                    <button className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page" onClick={handleLogout}>Logout</button>
                                 </div>
                             </div>
                         </div>

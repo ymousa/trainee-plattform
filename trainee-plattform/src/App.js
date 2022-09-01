@@ -1,56 +1,38 @@
 import './App.css';
-import React, { useState, useEffect } from 'react'
-import Navbar from "./Components/Navbar"
-import Home from './Components/Home/Home.js';
-import Login from './Components/Login/Login';
+import { Route, Routes } from "react-router-dom" //Routes ist Switch
 
+import PrivateRoutes from './Components/PrivateRoutes';
+import Layout from './Components/Layout';
 
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom" //Routes ist Switch
+import Login from './Components/Login';
+import Signup from './Components/Signup';
+import ForgotPassword from "./Components/ForgotPassword"
+import Home from './Components/Home';
+import Learner from "./Components/Learner"
 
 function App() {
-  const [token, setToken] = useState(getToken)
-  const [isSubmited, setIsSubmited] = useState(true)
- 
-  const today = new Date()
 
-  function getToken() {
-    const tokenString = localStorage.getItem("token")
-    const userToken = JSON.parse(tokenString)
-    return userToken
-  }
 
   return (
-    <Router>
-      <div className="App">
-        <Navbar token={token} />
-        <Routes>
-          {!isSubmited && (
-            <>
-              <Route path="/login"
-                element={<Login setToken={setToken} token={token} isSubmited={isSubmited} setIsSubmited={setIsSubmited} />}
-              />
-              {/* <Route path="/signin" element={<Registry token={token} />} /> */}
-            </>
-          )}
-          {isSubmited && (
-            <>
-              <Route path="/home" element={<Home />} /> 
-              {/* <Route path="/myProfile" element={<MyProfile token={token} />} /> */}
-              {/* <Route path="/insertBooking" element={<InsertBooking token={token} bookings={bookings} />} /> */}
-            </>
-          )}
-          {<Route path="*" element={<Navigate to={isSubmited ? "/home" : "/login"} />} />}
+    <Routes>
+      {/* Layout  */}
+
+      {/* public => no Authen or Author */}
+      <Route path="login" element={<Login />} />
+      <Route path="signup" element={<Signup />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
+
+      {/* protected => requiered auth and author */}
+      <Route element={<PrivateRoutes />}>
+        {/* Layout  Navbar*/}
+        <Route path="*" element={<Layout />} >
+          <Route path="" element={<Home />} exact />
+          <Route path="learner" element={<Learner />} />
 
 
-
-          {/* <Route  path="/" element={<Login setToken={setToken} token={token}/>} /> */}
-
-
-
-        </Routes>
-
-      </div>
-    </Router>
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 

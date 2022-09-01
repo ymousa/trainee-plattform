@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './Contexts/AuthContext';
+import { BrowserRouter, Route, Routes } from "react-router-dom" //Routes ist Switch
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <AuthProvider>
+      <App/>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
