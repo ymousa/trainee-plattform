@@ -1,7 +1,18 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import SemesterCard from '../Components/SemesterCard'
+import { db } from '../firebase'
 
 const Home = () => {
+    useEffect(() => {
+        const data= db.collection("user")
+        data.doc("fJzpUFJyV7AeOXmhyfvr").get().then((doc) => {
+            console.log(doc.data())
+        })
+    
+      
+    }, [])
+    
+    
     return (
         <div className="min-h-full">
             <header className="bg-white shadow">

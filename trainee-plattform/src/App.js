@@ -27,7 +27,7 @@ function App() {
         {/* Layout  Navbar*/}
         <Route path="*" element={<Layout />} >
           <Route path="" element={<Home />} exact />
-          <Route path="learner" element={<Learner />} />
+          
 
 
         </Route>
